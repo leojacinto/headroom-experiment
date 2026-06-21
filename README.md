@@ -2,7 +2,7 @@
 
 A controlled experiment measuring whether the [Headroom](https://github.com/chopratejas/headroom) context compression MCP tool reduces token spend in AI-assisted ServiceNow Fluent SDK builds.
 
-> **Headroom** (Apache 2.0, ~29.5k stars as of June 2026) is a context compression layer by Tejas Chopra (Netflix). It compresses tool outputs, file reads, logs, and structured data before they reach the model, claiming 60–95% token reduction on structured content, 40–80% on real-world mixed workloads. Install: `pip install "headroom-ai[mcp]"`. MCP server: `headroom mcp serve`.
+> **Headroom** (Apache 2.0, ~29.5k stars as of June 2026) is a context compression layer by Tejas Chopra (Netflix). It compresses tool outputs, file reads, logs, and structured data before they reach the model, claiming 60–95% token reduction, same answers. Install: `pip install "headroom-ai[mcp]"`. MCP server: `headroom mcp serve`.
 
 ---
 
@@ -86,13 +86,13 @@ The mechanism was not improved first-pass code quality; both conditions hit iden
 
 ## Alignment with Headroom's benchmarks
 
-Headroom's stated benchmarks: 60–95% token reduction on structured content (code search 92%, SRE log debugging 92%), 40–80% on real-world mixed workloads. Our result of 11% cost reduction is well below this range.
+Headroom's stated benchmarks: 60–95% token reduction, same answers (code search 92%, SRE log debugging in the 70–90% range). Our result of 11% cost reduction is well below this range.
 
 **Why:** This experiment used Headroom narrowly: the agent was instructed to compress SDK explain outputs over 1,500 tokens only. It called `headroom_compress` 4 times across the full build. Headroom is designed to compress *all* tool outputs: file reads, bash outputs, build logs, API responses. Our 11% is a floor result from partial usage, not a representative benchmark of full integration.
 
 Zero quality degradation aligns with Headroom's GSM8K accuracy claims (±0.000 delta). The 36% context re-read reduction aligns with the mechanism: leaner context → cheaper re-reads per iteration turn.
 
-A build using Headroom across all tool outputs (not just documentation) would likely land closer to the 40–80% real-world range.
+A build using Headroom across all tool outputs (not just documentation) would likely land closer to the 60–95% range the tool itself claims.
 
 ---
 
